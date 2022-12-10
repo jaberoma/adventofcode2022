@@ -1,4 +1,4 @@
-import 'package:advent_of_code_2022/day2.dart';
+import 'package:advent_of_code_2022/day2_puzzle1.dart';
 import 'package:test/test.dart';
 import 'dart:io';
 
