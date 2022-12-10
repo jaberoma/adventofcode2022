@@ -1,21 +1,16 @@
+import 'dart:core';
+
 enum Play {
-  rock(1),
-  paper(2),
-  scissors(3);
+  rock(1, ['A', 'X']),
+  paper(2, ['B', 'Y']),
+  scissors(3, ['C', 'Z']);
 
   final int score;
-  const Play(this.score);
+  final List<String> symbols;
+  const Play(this.score, this.symbols);
 
   static Play parse(String play) {
-    if (['A', 'X'].contains(play)) {
-      return Play.rock;
-    } else if (['B', 'Y'].contains(play)) {
-      return Play.paper;
-    } else if (['C', 'Z'].contains(play)) {
-      return Play.scissors;
-    } else {
-      throw Exception('Not supported type');
-    }
+    return Play.values.firstWhere((element) => element.symbols.contains(play));
   }
 }
 
