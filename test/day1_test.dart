@@ -4,9 +4,16 @@ import 'dart:io';
 
 void main() {
   test('puzzle1', () {
-    var file = File('test/data/puzzle1_input.txt');
+    var file = File('test/data/day1_input.txt');
     List<String> elvesCalories = file.readAsLinesSync();
 
     expect(puzzle1(elvesCalories), 69528);
+  });
+
+  test('puzzle2', () {
+    var file = File('test/data/day1_input.txt');
+    List<String> elvesCalories = file.readAsLinesSync();
+
+    expect(puzzle2(elvesCalories), 206152);
   });
 }
