@@ -9,7 +9,7 @@ enum Play {
   final List<String> symbols;
   const Play(this.score, this.symbols);
 
-  static Play parse(String play) {
+  factory Play.parse(String play) {
     return Play.values.firstWhere((element) => element.symbols.contains(play));
   }
 }
