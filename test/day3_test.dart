@@ -22,4 +22,24 @@ void main() {
 
     expect(puzzle1(rucksacksContents), 8493);
   });
+
+  test('puzzle2', () {
+    var rucksacksContents = [
+      'vJrwpWtwJgWrhcsFMMfFFhFp',
+      'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
+      'PmmdzqPrVvPwwTWBwg',
+      'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
+      'ttgJtRGJQctTZtZT',
+      'CrZsJsPPZsGzwwsLwLmpwMDw'
+    ];
+
+    expect(puzzle2(rucksacksContents), 70);
+  });
+
+  test('puzzle2', () {
+    var file = File('test/data/day3_input.txt');
+    List<String> rucksacksContents = file.readAsLinesSync();
+
+    expect(puzzle2(rucksacksContents), 2552);
+  });
 }
