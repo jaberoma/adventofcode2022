@@ -71,11 +71,11 @@ class Round {
 
 int puzzle1(List<String> strategyGuide) {
   int totalScore = 0;
-  strategyGuide.forEach((strategy) {
+  for (var strategy in strategyGuide) {
     List<String> parts = strategy.split(' ');
     totalScore +=
         Round(Play.parse(parts.first), Play.parse(parts.last)).myScore();
-  });
+  }
 
   return totalScore;
 }

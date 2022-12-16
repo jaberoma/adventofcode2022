@@ -66,14 +66,14 @@ enum RoundDesiredOutcomeForMe {
 
 int puzzle2(List<String> strategyGuide) {
   int totalScore = 0;
-  strategyGuide.forEach((strategy) {
+  for (var strategy in strategyGuide) {
     List<String> parts = strategy.split(' ');
     Play opponentPlay = Play.parse(parts.first);
     RoundDesiredOutcomeForMe roundDesiredOutcomeForMe =
         RoundDesiredOutcomeForMe.parse(parts.last);
     Play myPlay = roundDesiredOutcomeForMe.decideMyPlay(opponentPlay);
     totalScore += roundDesiredOutcomeForMe.score + myPlay.score;
-  });
+  }
 
   return totalScore;
 }

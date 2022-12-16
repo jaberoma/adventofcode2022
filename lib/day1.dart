@@ -5,14 +5,14 @@ int puzzle1(List<String> elvesCalories) {
   int maxCalories = 0;
   int currentElfCalories = 0;
 
-  elvesCalories.forEach((calories) {
+  for (var calories in elvesCalories) {
     if (calories.isEmpty) {
       maxCalories = max(maxCalories, currentElfCalories);
       currentElfCalories = 0;
     } else {
       currentElfCalories += int.parse(calories);
     }
-  });
+  }
 
   return maxCalories;
 }
@@ -20,14 +20,14 @@ int puzzle1(List<String> elvesCalories) {
 int puzzle2(List<String> elvesCalories) {
   SplayTreeSet<int> sortedCalories = SplayTreeSet();
   int currentElfCalories = 0;
-  elvesCalories.forEach((calories) {
+  for (var calories in elvesCalories) {
     if (calories.isEmpty) {
       sortedCalories.add(currentElfCalories);
       currentElfCalories = 0;
     } else {
       currentElfCalories += int.parse(calories);
     }
-  });
+  }
 
   return sortedCalories
       .toList()
