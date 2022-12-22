@@ -1,61 +1,85 @@
-final int crateSize = 3;
-
 String puzzle1(List<String> sourceStructure) {
-  List<Move> movements = [];
-  List<List<String>> stacksOfCrates =
-      List.generate(sourceStructure.first.length ~/ crateSize, (index) => []);
+  RearrangmentInstructions instructions =
+      RearrangmentInstructions.from(sourceStructure);
 
-  for (var line in sourceStructure) {
-    if (line.startsWith('move')) {
-      Move? movement = parseMovement(line);
-      if (movement != null) {
-        movements.add(movement);
-      }
-    } else if (line.contains('[')) {
-      int stack = 0;
-      String remainingLine = line;
-      while (remainingLine.length >= crateSize) {
-        String crateAttempt = remainingLine.substring(0, crateSize);
-        if (crateAttempt.contains('[')) {
-          stacksOfCrates[stack].insert(0, crateAttempt[1]);
-        }
+  instructions.doPuzzle1Movements();
 
-        remainingLine = remainingLine.substring(crateSize);
-        if (remainingLine.startsWith(' ')) {
-          remainingLine = remainingLine.substring(1);
-        }
-        stack++;
-      }
-    }
-  }
-
-  print(movements);
-  print(stacksOfCrates);
-
-  for (Move movement in movements) {
-    for (int crates = 0; crates < movement._number; crates++) {
-      if (stacksOfCrates[movement._from - 1].isNotEmpty) {
-        stacksOfCrates[movement._to - 1]
-            .add(stacksOfCrates[movement._from - 1].removeLast());
-      }
-    }
-  }
-
-  return stacksOfCrates
-      .map((stack) => stack.isNotEmpty ? stack.removeLast() : '')
-      .join();
+  return instructions.getOutput();
 }
 
-Move? parseMovement(String movementLine) {
-  RegExp exp = RegExp(r'\b\d+\b');
+String puzzle2(List<String> sourceStructure) {
+  RearrangmentInstructions instructions =
+      RearrangmentInstructions.from(sourceStructure);
 
-  List<int> movements = exp
-      .allMatches(movementLine)
-      .map((match) => int.parse(match.group(0) ?? ''))
-      .toList();
-  if (movements.length == 3) {
-    return Move(
-        movements.elementAt(0), movements.elementAt(1), movements.elementAt(2));
+  instructions.doPuzzle2Movements();
+
+  return instructions.getOutput();
+}
+
+class RearrangmentInstructions {
+  static final int crateSize = 3;
+
+  final List<Move> _movements = [];
+  List<List<String>> _stacksOfCrates = [];
+
+  RearrangmentInstructions.from(List<String> sourceStructure) {
+    _stacksOfCrates =
+        List.generate(sourceStructure.first.length ~/ crateSize, (index) => []);
+
+    for (var line in sourceStructure) {
+      if (line.startsWith('move')) {
+        Move? movement = Move.parseMovement(line);
+        if (movement != null) {
+          _movements.add(movement);
+        }
+      } else if (line.contains('[')) {
+        int stack = 0;
+        String remainingLine = line;
+        while (remainingLine.length >= crateSize) {
+          String crateAttempt = remainingLine.substring(0, crateSize);
+          if (crateAttempt.contains('[')) {
+            _stacksOfCrates[stack].insert(0, crateAttempt[1]);
+          }
+
+          remainingLine = remainingLine.substring(crateSize);
+          if (remainingLine.startsWith(' ')) {
+            remainingLine = remainingLine.substring(1);
+          }
+          stack++;
+        }
+      }
+    }
+  }
+
+  void doPuzzle1Movements() {
+    for (Move movement in _movements) {
+      List<String> sourceStack = _stacksOfCrates[movement._from - 1];
+      for (int crates = 0; crates < movement._number; crates++) {
+        if (sourceStack.isNotEmpty) {
+          _stacksOfCrates[movement._to - 1].add(sourceStack.removeLast());
+        }
+      }
+    }
+  }
+
+  void doPuzzle2Movements() {
+    for (Move movement in _movements) {
+      List<String> sourceStack = _stacksOfCrates[movement._from - 1];
+      int number = sourceStack.length >= movement._number
+          ? movement._number
+          : sourceStack.length;
+
+      _stacksOfCrates[movement._to - 1]
+          .addAll(sourceStack.skip(sourceStack.length - number).take(number));
+
+      sourceStack.removeRange(sourceStack.length - number, sourceStack.length);
+    }
+  }
+
+  String getOutput() {
+    return _stacksOfCrates
+        .map((stack) => stack.isNotEmpty ? stack.removeLast() : '')
+        .join();
   }
 }
 
@@ -65,6 +89,19 @@ class Move {
   final int _to;
 
   Move(this._number, this._from, this._to);
+
+  static Move? parseMovement(String movementLine) {
+    RegExp exp = RegExp(r'\b\d+\b');
+
+    List<int> movements = exp
+        .allMatches(movementLine)
+        .map((match) => int.parse(match.group(0) ?? ''))
+        .toList();
+    if (movements.length == 3) {
+      return Move(movements.elementAt(0), movements.elementAt(1),
+          movements.elementAt(2));
+    }
+  }
 
   @override
   bool operator ==(Object other) {

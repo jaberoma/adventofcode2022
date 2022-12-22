@@ -4,12 +4,12 @@ import 'dart:io';
 
 void main() {
   test('parseLineWithMovements', () {
-    Move? movement = parseMovement('move 1 from 2 to 1');
+    Move? movement = Move.parseMovement('move 1 from 2 to 1');
     expect(movement, Move(1, 2, 1));
   });
 
   test('puzzle1', () {
-    List<String> peerAssignments = [
+    List<String> crates = [
       '    [D]    ',
       '[N] [C]    ',
       '[Z] [M] [P]',
@@ -21,7 +21,7 @@ void main() {
       'move 1 from 1 to 2',
     ];
 
-    expect(puzzle1(peerAssignments), 'CMZ');
+    expect(puzzle1(crates), 'CMZ');
   });
 
   test('puzzle1 with file', () {
@@ -29,5 +29,28 @@ void main() {
     List<String> crates = file.readAsLinesSync();
 
     expect(puzzle1(crates), 'CFFHVVHNC');
+  });
+
+  test('puzzle2', () {
+    List<String> crates = [
+      '    [D]    ',
+      '[N] [C]    ',
+      '[Z] [M] [P]',
+      '1   2   3 ',
+      '',
+      'move 1 from 2 to 1',
+      'move 3 from 1 to 3',
+      'move 2 from 2 to 1',
+      'move 1 from 1 to 2',
+    ];
+
+    expect(puzzle2(crates), 'MCD');
+  });
+
+  test('puzzle2 with file', () {
+    var file = File('test/data/day5_input.txt');
+    List<String> crates = file.readAsLinesSync();
+
+    expect(puzzle2(crates), 'FSZWBPTBG');
   });
 }
