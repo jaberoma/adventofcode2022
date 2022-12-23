@@ -1,6 +1,8 @@
 import 'package:advent_of_code_2022/day3.dart';
 import 'package:test/test.dart';
-import 'dart:io';
+import 'testing.dart';
+
+final String _inputFile = 'day3_input.txt';
 
 void main() {
   test('puzzle1', () {
@@ -17,10 +19,7 @@ void main() {
   });
 
   test('puzzle1', () {
-    var file = File('test/data/day3_input.txt');
-    List<String> rucksacksContents = file.readAsLinesSync();
-
-    expect(puzzle1(rucksacksContents), 8493);
+    expect(puzzle1(loadFile(_inputFile)), 8493);
   });
 
   test('puzzle2', () {
@@ -37,9 +36,6 @@ void main() {
   });
 
   test('puzzle2', () {
-    var file = File('test/data/day3_input.txt');
-    List<String> rucksacksContents = file.readAsLinesSync();
-
-    expect(puzzle2(rucksacksContents), 2552);
+    expect(puzzle2(loadFile(_inputFile)), 2552);
   });
 }

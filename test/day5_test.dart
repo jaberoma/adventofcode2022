@@ -1,6 +1,8 @@
 import 'package:advent_of_code_2022/day5.dart';
 import 'package:test/test.dart';
-import 'dart:io';
+import 'testing.dart';
+
+final String _inputFile = 'day5_input.txt';
 
 void main() {
   test('parseLineWithMovements', () {
@@ -25,10 +27,7 @@ void main() {
   });
 
   test('puzzle1 with file', () {
-    var file = File('test/data/day5_input.txt');
-    List<String> crates = file.readAsLinesSync();
-
-    expect(puzzle1(crates), 'CFFHVVHNC');
+    expect(puzzle1(loadFile(_inputFile)), 'CFFHVVHNC');
   });
 
   test('puzzle2', () {
@@ -48,9 +47,6 @@ void main() {
   });
 
   test('puzzle2 with file', () {
-    var file = File('test/data/day5_input.txt');
-    List<String> crates = file.readAsLinesSync();
-
-    expect(puzzle2(crates), 'FSZWBPTBG');
+    expect(puzzle2(loadFile(_inputFile)), 'FSZWBPTBG');
   });
 }
