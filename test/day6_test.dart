@@ -15,11 +15,29 @@ void main() {
     };
 
     buffersAndPosition.forEach((key, value) {
-      expect(puzzle1(key), value);
+      expect(puzzles(key, 4), value);
     });
   });
 
-  test('puzzle1 my version', () {
-    expect(puzzle1(loadFile(_inputFile).first), 1848);
+  test('puzzle1 with file input', () {
+    expect(puzzles(loadFile(_inputFile).first, 4), 1848);
+  });
+
+  test('puzzle2', () {
+    Map<String, int> buffersAndPosition = {
+      'mjqjpqmgbljsphdztnvjfqwrcgsmlb': 19,
+      'bvwbjplbgvbhsrlpgdmjqwftvncz': 23,
+      'nppdvjthqldpwncqszvftbrmjlhg': 23,
+      'nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg': 29,
+      'zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw': 26
+    };
+
+    buffersAndPosition.forEach((key, value) {
+      expect(puzzles(key, 14), value);
+    });
+  });
+
+  test('puzzle2 with file input', () {
+    expect(puzzles(loadFile(_inputFile).first, 14), 2308);
   });
 }

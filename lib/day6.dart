@@ -1,10 +1,10 @@
-int puzzle1(String buffer) {
+int puzzles(String buffer, int differentCharsNumber) {
   String fourDifferentChars = '';
   for (int idx = 0; idx < buffer.length; idx++) {
     String char = buffer[idx];
     if (!fourDifferentChars.contains(char)) {
       fourDifferentChars += char;
-      if (fourDifferentChars.length == 4) {
+      if (fourDifferentChars.length == differentCharsNumber) {
         return idx + 1;
       }
     } else {
