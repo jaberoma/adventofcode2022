@@ -1,4 +1,22 @@
 int puzzle1(List<String> input) {
+  File rootFolder = diskTree(input);
+  return rootFolder.foldersWhichSizeIsLessOrEqualsTo(100000).fold(
+      0, (previousValue, element) => previousValue + element.childrenSize());
+}
+
+int puzzle2(List<String> input) {
+  File rootFolder = diskTree(input);
+  int usedSpace = rootFolder.childrenSize();
+  int unusedSpace = 70000000 - usedSpace;
+  int requiredSpace = 30000000 - unusedSpace;
+  return rootFolder
+      .foldersWhichSizeIsGreaterOrEqualsTo(requiredSpace)
+      .reduce((current, next) =>
+          current.childrenSize() < next.childrenSize() ? current : next)
+      .childrenSize();
+}
+
+File diskTree(List<String> input) {
   File rootFolder = File.folder('/');
   File currentFolder = rootFolder;
   for (var inputLine in input) {
@@ -16,8 +34,7 @@ int puzzle1(List<String> input) {
     }
   }
 
-  return rootFolder.foldersWhichSizeIsLessOrEqualsTo(100000).fold(
-      0, (previousValue, element) => previousValue + element.childrenSize());
+  return rootFolder;
 }
 
 class File {
@@ -66,6 +83,20 @@ class File {
           folders.add(child);
         }
         folders.addAll(child.foldersWhichSizeIsLessOrEqualsTo(size));
+      }
+    }
+
+    return folders;
+  }
+
+  Set<File> foldersWhichSizeIsGreaterOrEqualsTo(int size) {
+    Set<File> folders = {};
+    for (File child in children) {
+      if (child.folder) {
+        if (child.childrenSize() >= size) {
+          folders.add(child);
+        }
+        folders.addAll(child.foldersWhichSizeIsGreaterOrEqualsTo(size));
       }
     }
 
